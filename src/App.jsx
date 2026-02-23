@@ -170,7 +170,7 @@ const homeNowLearning = [
   'Secure reporting workflow',
 ]
 
-const homeToolkit = ['Burp Suite', 'Nmap', 'Wireshark', 'Linux', 'Python', 'Figma']
+const homeToolkit = ['Burp Suite', 'Nmap', 'Wireshark', 'Linux', 'Python']
 
 function normalizeRoute(pathname) {
   if (!pathname || pathname === '') return '/'
