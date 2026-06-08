@@ -90,7 +90,7 @@ const projects = [
     link: 'https://github.com/SakaGintoki/Mobile-App-Development',
     linkLabel: 'GitHub Link',
     linkHint: 'Open Repository',
-    image: '/littlesteps.png',
+    image: 'https://cmksgbpzjakscqzqutja.supabase.co/storage/v1/render/image/public/portfolio-assets/img/LittleKids.png?width=1800&quality=82&resize=contain',
     imageFit: 'cover',
     imagePosition: 'center',
     imageRatio: '2 / 1',
@@ -132,7 +132,7 @@ const projects = [
     link: 'https://www.figma.com/proto/nKv20vZ0eMc1lbcaPiIww4/Kiddora?page-id=1%3A3&node-id=249-2724&viewport=-3940%2C-2018%2C0.38&t=tl48gWN5NE12ucF8-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=72%3A427&show-proto-sidebar=1',
     linkLabel: 'Open Demo',
     linkHint: 'Open Prototype',
-    image: '/kiddora.png',
+    image: 'https://cmksgbpzjakscqzqutja.supabase.co/storage/v1/render/image/public/portfolio-assets/img/Kiddora.png?width=1800&quality=82&resize=contain',
     imageFit: 'cover',
     imagePosition: 'center middle',
     imageBackground: '#000000',
@@ -280,9 +280,14 @@ function MatrixBackground() {
 function SectionHeader({ k, title, subtitle }) {
   return (
     <header className="section-header">
-      <p className="key">{k}</p>
+      <div className="section-bar">
+        <span className="section-led" />
+        <p className="key">{k}</p>
+        <span className="section-line" />
+        <p className="section-status">[ ONLINE ]</p>
+      </div>
       <h1>{title}</h1>
-      <p className="subtitle">{subtitle}</p>
+      {subtitle ? <p className="subtitle">{subtitle}</p> : null}
     </header>
   )
 }
@@ -424,11 +429,59 @@ function ProfilePhoto() {
 }
 
 function AboutPage() {
+  const focusAreas = [
+    { label: 'Web Exploitation', level: 86 },
+    { label: 'Penetration Testing', level: 78 },
+    { label: 'Reverse Engineering', level: 64 },
+    { label: 'Threat Intelligence', level: 72 },
+  ]
+
+  const aboutStats = [
+    { label: 'CTF Wins', value: '04+' },
+    { label: 'Certs', value: '05' },
+    { label: 'Focus', value: 'Red Team' },
+  ]
+
   return (
     <>
       <SectionHeader k="ABOUT" title="About Me" subtitle="Short personal background and current professional direction." />
-      <div className="two-col">
-        <article className="panel">
+
+      <article className="panel about-id">
+        <div className="about-id-photo">
+          <ProfilePhoto />
+          <span className="about-id-scan" aria-hidden="true" />
+        </div>
+        <div className="about-id-info">
+          <p className="about-id-tag">// OPERATOR DOSSIER</p>
+          <h2 className="about-id-name">{profile.name}</h2>
+          <p className="about-id-role">{profile.title}</p>
+          <ul className="about-meta">
+            <li>
+              <span>LOCATION</span>
+              <strong>{profile.location}</strong>
+            </li>
+            <li>
+              <span>CLEARANCE</span>
+              <strong className="ok">Internship Ready</strong>
+            </li>
+            <li>
+              <span>DISCIPLINE</span>
+              <strong>Offensive Security</strong>
+            </li>
+          </ul>
+          <div className="about-stats">
+            {aboutStats.map((stat) => (
+              <div className="about-stat" key={stat.label}>
+                <strong>{stat.value}</strong>
+                <span>{stat.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </article>
+
+      <div className="about-grid">
+        <article className="panel about-bio">
           <h2>My Background</h2>
           <p>
             I am a Computer Science student at Universitas Brawijaya, focused on cybersecurity with strong interest in
@@ -438,18 +491,38 @@ function AboutPage() {
             I regularly train through CTFs, hands-on labs, and penetration testing practice while improving how I
             communicate findings into practical remediation steps.
           </p>
+          <h3 className="sub-head">Education</h3>
           {education.map((item) => (
             <div className="entry" key={item.school}>
               <h3>{item.school}</h3>
               <p>{item.degree}</p>
               <p className="muted">{item.period}</p>
-              <p className="muted">{item.detail}</p>
+              {item.detail ? <p className="muted">{item.detail}</p> : null}
             </div>
           ))}
         </article>
-        <article className="panel">
-          <h2>Profile Photo</h2>
-          <ProfilePhoto />
+
+        <article className="panel about-focus">
+          <h2>Focus Areas</h2>
+          <div className="focus-list">
+            {focusAreas.map((area) => (
+              <div className="focus-item" key={area.label}>
+                <div className="focus-top">
+                  <span>{area.label}</span>
+                  <span className="focus-pct">{area.level}%</span>
+                </div>
+                <div className="focus-bar">
+                  <span style={{ width: `${area.level}%` }} />
+                </div>
+              </div>
+            ))}
+          </div>
+          <h3 className="sub-head">Toolkit</h3>
+          <div className="tags about-toolkit">
+            {homeToolkit.map((tool) => (
+              <span key={tool}>{tool}</span>
+            ))}
+          </div>
         </article>
       </div>
     </>
@@ -457,6 +530,51 @@ function AboutPage() {
 }
 
 function ExperiencePage() {
+  const itemRefs = useRef([])
+  const railRef = useRef(null)
+  const [progress, setProgress] = useState(0)
+
+  useEffect(() => {
+    let raf = 0
+
+    const update = () => {
+      const vh = window.innerHeight
+
+      itemRefs.current.forEach((node) => {
+        if (!node) return
+        const rect = node.getBoundingClientRect()
+        const center = rect.top + rect.height / 2
+        const delta = (center - vh / 2) / vh
+        node.style.setProperty('--shift', `${(delta * 46).toFixed(1)}px`)
+        node.style.setProperty('--ghost', `${(delta * -70).toFixed(1)}px`)
+        const vis = 1 - Math.min(Math.abs(delta) * 1.15, 0.72)
+        node.style.setProperty('--vis', vis.toFixed(3))
+      })
+
+      if (railRef.current) {
+        const rect = railRef.current.getBoundingClientRect()
+        const total = rect.height || 1
+        const scrolled = Math.min(Math.max(vh * 0.5 - rect.top, 0), total)
+        setProgress((scrolled / total) * 100)
+      }
+
+      raf = 0
+    }
+
+    const onScroll = () => {
+      if (!raf) raf = window.requestAnimationFrame(update)
+    }
+
+    update()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      if (raf) window.cancelAnimationFrame(raf)
+    }
+  }, [])
+
   return (
     <>
       <SectionHeader
@@ -464,29 +582,58 @@ function ExperiencePage() {
         title="Experience Chain"
         subtitle="Learning, training, and practical engagements that built offensive security depth."
       />
-      <article className="panel">
-        <div className="timeline">
-          {experience.map((item) => (
-            <section className="timeline-item" key={`${item.role}-${item.org}`}>
+
+      <div className="xp-parallax" ref={railRef}>
+        <div className="xp-spine">
+          <span className="xp-spine-fill" style={{ height: `${progress}%` }} />
+        </div>
+
+        {experience.map((item, index) => (
+          <section
+            className={`xp-node ${index % 2 === 0 ? 'left' : 'right'}`}
+            key={`${item.role}-${item.org}`}
+            ref={(el) => {
+              itemRefs.current[index] = el
+            }}
+          >
+            <span className="xp-dot" aria-hidden="true" />
+            <span className="xp-ghost" aria-hidden="true">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <article className="xp-card">
+              <div className="xp-card-top">
+                <span className="xp-period">{item.period}</span>
+                <span className="xp-tag">LOG_{String(index + 1).padStart(2, '0')}</span>
+              </div>
               <h3>{item.role}</h3>
-              <p>{item.org}</p>
-              <p className="muted">{item.period}</p>
+              <p className="xp-org">{item.org}</p>
               <ul className="clean-list">
                 {item.bullets.map((bullet) => (
                   <li key={bullet}>{bullet}</li>
                 ))}
               </ul>
-            </section>
-          ))}
-        </div>
-      </article>
+            </article>
+          </section>
+        ))}
+      </div>
+
       <article className="panel">
         <h2>Certifications</h2>
-        <ul className="clean-list cols">
+        <div className="cert-grid">
           {certs.map((item) => (
-            <li key={item}>{item}</li>
+            <div className="cert-chip" key={item}>
+              <span className="cert-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 2 4 5v6c0 4.4 3.1 8.3 8 9 4.9-.7 8-4.6 8-9V5l-8-3Zm-1.2 13.2L7.3 11.7l1.4-1.4 2.1 2.1 4.5-4.5 1.4 1.4-5.9 5.9Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </span>
+              <span className="cert-text">{item}</span>
+            </div>
           ))}
-        </ul>
+        </div>
       </article>
     </>
   )
@@ -523,6 +670,8 @@ function ProjectsPage() {
 
     return (
       <div className="project-image-slot" style={slotStyle}>
+        <span className="img-grid" aria-hidden="true" />
+        <span className="img-flag">SECURE</span>
         {!failed ? (
           <img
             src={src}
@@ -548,7 +697,7 @@ function ProjectsPage() {
         title="My Projects"
       />
       <div className="cards3">
-        {projects.map((project) => (
+        {projects.map((project, index) => (
           <article
             className="panel project-module"
             key={project.name}
@@ -564,6 +713,7 @@ function ProjectsPage() {
               }
             }}
           >
+            <span className="card-index">{String(index + 1).padStart(2, '0')}</span>
             <ProjectImage
               src={project.image}
               name={project.name}
@@ -574,7 +724,10 @@ function ProjectsPage() {
             />
             <div className="project-head">
               <h2>{project.name}</h2>
-              <span>{project.status}</span>
+              <span>
+                <span className="led" />
+                {project.status}
+              </span>
             </div>
             <div className="tags">
               {project.stack.map((tool) => (
@@ -750,6 +903,20 @@ function App() {
   const [activeCommand, setActiveCommand] = useState(0)
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 })
   const [cursorVisible, setCursorVisible] = useState(false)
+  const [now, setNow] = useState(() => new Date())
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  useEffect(() => {
+    const id = window.setInterval(() => setNow(new Date()), 1000)
+    return () => window.clearInterval(id)
+  }, [])
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [menuOpen])
 
   const commandItems = [
     ...navItems.map((item) => ({
@@ -810,6 +977,7 @@ function App() {
     setCommandOpen(false)
     setCommandQuery('')
     setActiveCommand(0)
+    setMenuOpen(false)
   }, [displayRoute])
 
   useEffect(() => {
@@ -938,8 +1106,19 @@ function App() {
       '/contact': <ContactPage navigate={navigate} />,
     }[displayRoute] ?? <NotFound />
 
+  const navIndex = Math.max(0, navItems.findIndex((item) => item.path === route))
+  const activeLabel = navItems[navIndex]?.label ?? 'Root'
+  const clock = now.toLocaleTimeString('en-GB', { hour12: false })
+
   return (
-    <div className="shell">
+    <div className="console">
+      <div className="hud-frame" aria-hidden="true">
+        <span className="hud-corner tl" />
+        <span className="hud-corner tr" />
+        <span className="hud-corner bl" />
+        <span className="hud-corner br" />
+        <span className="hud-scan" />
+      </div>
       <div
         className={`cursor-glow ${cursorVisible ? 'show' : ''}`}
         style={{ transform: `translate(${cursorPos.x - 120}px, ${cursorPos.y - 120}px)` }}
@@ -950,34 +1129,134 @@ function App() {
       <div className="noise" />
       <div className="vignette" />
 
-      <header className="topbar">
-        <div className="brand" role="button" tabIndex={0} onClick={() => navigate('/home')} onKeyDown={onBrandKeyDown}>
-          Steven@Portfolio
+      <header className="mobile-bar">
+        <div
+          className="mobile-logo"
+          role="button"
+          tabIndex={0}
+          onClick={() => navigate('/home')}
+          onKeyDown={onBrandKeyDown}
+        >
+          SA
         </div>
-        <nav className="top-nav">
-          {navItems.map((item) => (
+        <button
+          type="button"
+          className={`menu-toggle ${menuOpen ? 'open' : ''}`}
+          onClick={() => setMenuOpen((prev) => !prev)}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+        >
+          {menuOpen ? (
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 5l14 14M19 5L5 19" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+            </svg>
+          ) : (
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+            </svg>
+          )}
+        </button>
+      </header>
+
+      <div className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
+        <span className="mobile-menu-watermark" aria-hidden="true">SA</span>
+        <nav className="mobile-menu-nav">
+          {navItems.map((item, index) => (
+            <button
+              key={item.path}
+              type="button"
+              className={item.path === route ? 'active' : ''}
+              onClick={() => navigate(item.path)}
+            >
+              <span className="mm-index">{String(index + 1).padStart(2, '0')}</span>
+              <span className="mm-label">{item.label}</span>
+            </button>
+          ))}
+        </nav>
+        <button
+          type="button"
+          className="mobile-contact"
+          onClick={() => navigate('/contact')}
+        >
+          CONTACT ME <span aria-hidden="true">→</span>
+        </button>
+        <div className="mobile-menu-foot">
+          <span>STATUS: ONLINE</span>
+          <span>LAT: -7.98 // LNG: 112.62</span>
+        </div>
+      </div>
+
+      <aside className="rail">
+        <div
+          className="rail-brand"
+          role="button"
+          tabIndex={0}
+          onClick={() => navigate('/home')}
+          onKeyDown={onBrandKeyDown}
+        >
+          <span className="rail-logo">SA</span>
+          <span className="rail-brand-text">
+            <strong>Steven Anthony</strong>
+            <small>OFFENSIVE SECURITY</small>
+          </span>
+        </div>
+
+        <nav className="rail-nav">
+          {navItems.map((item, index) => (
             <button
               key={item.path}
               className={item.path === route ? 'active' : ''}
               type="button"
               onClick={() => navigate(item.path)}
             >
-              {item.label}
+              <span className="rail-index">{String(index + 1).padStart(2, '0')}</span>
+              <span className="rail-label">{item.label}</span>
+              <span className="rail-marker" />
             </button>
           ))}
         </nav>
-        <button type="button" className="cmd-trigger" onClick={() => setCommandOpen(true)}>
-          <span>Quick Actions</span>
-          <kbd>Ctrl K</kbd>
-        </button>
-      </header>
 
-      <main>
-        <section className={`page-transition ${transitionState}`}>{view}</section>
-      </main>
+        <div className="rail-foot">
+          <button type="button" className="cmd-trigger" onClick={() => setCommandOpen(true)}>
+            <span>Quick Actions</span>
+            <kbd>Ctrl K</kbd>
+          </button>
+          <div className="rail-status">
+            <p>
+              <span className="rail-dot" /> SYSTEM ONLINE
+            </p>
+            <p className="rail-clock">{clock} UTC+7</p>
+          </div>
+        </div>
+      </aside>
+
+      <div className="workspace">
+        <div className="statusbar">
+          <div className="crumbs">
+            <span className="crumb-root">root@steven</span>
+            <span className="crumb-sep">:</span>
+            <span className="crumb-path">~{route === '/' ? '/init' : route}</span>
+            <span className="crumb-caret">▮</span>
+          </div>
+          <div className="status-meta">
+            <span className="meta-chip">
+              SEC {String(navIndex + 1).padStart(2, '0')}/{String(navItems.length).padStart(2, '0')}
+            </span>
+            <span className="meta-chip">{activeLabel.toUpperCase()}</span>
+            <span className="meta-chip live">
+              <span className="meta-led" /> LIVE
+            </span>
+          </div>
+        </div>
+
+        <main>
+          <section className={`page-transition ${transitionState}`}>{view}</section>
+        </main>
+      </div>
+
       {showBackTop ? (
         <button type="button" className="back-top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          Top
+          ▲ TOP
         </button>
       ) : null}
       {commandOpen ? (
