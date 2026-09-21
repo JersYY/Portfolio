@@ -1,177 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 
-const profile = {
-  name: 'Steven Anthony',
-  title: 'Offensive Security Learner | CTF Competitor',
-  location: 'Malang, East Java, Indonesia',
-  email: 'stevenanthony881@gmail.com',
-  phone: '+62 812-8889-7723',
-  linkedin: 'https://www.linkedin.com/in/stevenn28/',
-  github: 'https://github.com/JersYY',
-  instagram: 'https://instagram.com/stevanth_',
-  summary:
-    'I am a cybersecurity learner focused on offensive workflows, vulnerability research, and adversarial thinking through labs, CTFs, and practical penetration testing.',
-}
-
-const navItems = [
-  { label: 'Home', path: '/home' },
-  { label: 'About', path: '/about' },
-  { label: 'Experience', path: '/experience' },
-  { label: 'Projects', path: '/projects' },
-  { label: 'Achievement', path: '/achievement' },
-  { label: 'Contact', path: '/contact' },
-]
-
-const education = [
-  {
-    school: 'Universitas Brawijaya',
-    degree: 'Bachelor of Computer Science (Informatics Engineering)',
-    period: 'Sep 2023 - Present'
-  },
-]
-
-const experience = [
-  {
-    role: 'Penetration Tester',
-    org: 'Client Security Engagement',
-    period: 'Jun 2025 - Dec 2025',
-    bullets: [
-      'Executed vulnerability assessments on web and network assets.',
-      'Documented findings with actionable remediation plans.',
-    ],
-  },
-  {
-    role: 'Cybersecurity Bootcamp Participant',
-    org: 'SMT Security Manpower Training',
-    period: 'Jul 2025 - Aug 2025',
-    bullets: ['Completed intensive security training with practical defense and offense modules.'],
-  },
-  {
-    role: 'Cybersecurity Student',
-    org: 'POROS Open Source Organization',
-    period: 'Apr 2024 - Present',
-    bullets: ['Active in Linux-focused and open-source cybersecurity learning.'],
-  },
-]
-
-const projects = [
-  {
-    name: 'CTF Writeups',
-    stack: ['CTF', 'Web Security', 'Forensics', 'Reverse Engineering'],
-    outcome: 'Collection of my CTF writeups, solutions, and learning notes from different challenges.',
-    status: 'Knowledge Base',
-    link: 'https://github.com/JersYY/CTF-Writeups',
-    linkLabel: 'GitHub Link',
-    linkHint: 'Open Repository',
-    image: '/project-ctf-writeups.png',
-    imageFit: 'cover',
-    imageRatio: '2 / 1',
-    imagePosition: 'center',
-  },
-  {
-    name: 'Thrifts.',
-    stack: ['Web App', 'Marketplace', 'Frontend', 'Backend'],
-    outcome: 'A thrifting marketplace website focused on product discovery, listing flow, and marketplace experience.',
-    status: 'Application',
-    link: 'https://github.com/G4l1le30/authenYt',
-    linkLabel: 'GitHub Link',
-    linkHint: 'Open Repository',
-    image: '/thrifts.png',
-    imageFit: 'contain',
-    imagePosition: 'center top',
-    imageRatio: '2 / 1',
-  },
-  {
-    name: 'LittleSteps',
-    stack: ['Mobile', 'Mother & Baby', 'Service Platform'],
-    outcome:
-      'An application for mothers and babies with a main babysitter rental feature branded as LittleSteps.',
-    status: 'Mobile Project',
-    link: 'https://github.com/SakaGintoki/Mobile-App-Development',
-    linkLabel: 'GitHub Link',
-    linkHint: 'Open Repository',
-    image: 'https://cmksgbpzjakscqzqutja.supabase.co/storage/v1/render/image/public/portfolio-assets/img/LittleKids.png?width=1800&quality=82&resize=contain',
-    imageFit: 'cover',
-    imagePosition: 'center',
-    imageRatio: '2 / 1',
-  },
-  {
-    name: 'Interstellar',
-    stack: ['UI/UX', '3D Models', 'Audio System', 'Vercel'],
-    outcome:
-      'Designed UI, created immersive 3D objects from atom to universe scale, implemented atmospheric audio, and deployed to Vercel.',
-    status: 'Immersive Experience',
-    link: 'https://github.com/SakaGintoki/Interstellar',
-    linkLabel: 'GitHub Link',
-    linkHint: 'Open Repository',
-    image: '/interstellar.png',
-    imageFit: 'cover',
-    imagePosition: 'center',
-    imageRatio: '2 / 1',
-  },
-  {
-    name: 'Hology7 CTF',
-    stack: ['CTF Challenge', 'Problem Setter', 'Cybersecurity'],
-    outcome: 'Contributed as a problem setter for CTF challenges.',
-    status: 'CTF Organizer',
-    link: 'https://github.com/hology7-ctf',
-    linkLabel: 'GitHub Link',
-    linkHint: 'Open Repository',
-    image: '/hology.png',
-    imageFit: 'contain',
-    imagePosition: 'center',
-    imageBackground: '#000000',
-    imageRatio: '2 / 1',
-  },
-  {
-    name: 'Kiddora',
-    stack: ['UI/UX', 'Figma Prototype', 'Mobile Design'],
-    outcome:
-      'Kiddora helps parents find trusted childcare through verified badges and research-driven design.',
-    status: 'Demo Prototype',
-    link: 'https://www.figma.com/proto/nKv20vZ0eMc1lbcaPiIww4/Kiddora?page-id=1%3A3&node-id=249-2724&viewport=-3940%2C-2018%2C0.38&t=tl48gWN5NE12ucF8-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=72%3A427&show-proto-sidebar=1',
-    linkLabel: 'Open Demo',
-    linkHint: 'Open Prototype',
-    image: 'https://cmksgbpzjakscqzqutja.supabase.co/storage/v1/render/image/public/portfolio-assets/img/Kiddora.png?width=1800&quality=82&resize=contain',
-    imageFit: 'cover',
-    imagePosition: 'center middle',
-    imageBackground: '#000000',
-    imageRatio: '2 / 1',
-  },
-]
-
-const certs = [
-  'Certified Web Red Team Analyst (Jan 2026)',
-  'Certified Threat Intelligence and Governance Analyst - CTIGA (Jan 2026)',
-  'Certified Red Team Operations Management - CRTOM (Jan 2026)',
-  'Cyber Threat Intelligence 101 (Jan 2026)',
-  'Ethical Hacker - Cisco Networking Academy (Jan 2026)',
-]
-
-const highlights = [
-  '1st Winner - Bizznovation (Apr 2025)',
-  '2nd Winner - CTF Rising Phoenix 3.0 (Mar 2025)',
-  'Top 12 Online / Top 19 Overall - THCon 2025 CTF',
-  '2nd Winner - Capture The Flag CodEx (Sep 2023)',
-  'Bakti BCA Scholarship Awardee (2024-2025)',
-]
-
-const homeSignals = [
-  { label: 'CTF Rank Push', value: 'Active', tone: 'good' },
-  { label: 'Writeups Progress', value: 'Weekly', tone: 'info' },
-  { label: 'Collaboration', value: 'Open', tone: 'good' },
-  { label: 'Availability', value: 'Internship Ready', tone: 'info' },
-]
-
-const homeNowLearning = [
-  'Web exploitation methodology',
-  'Privilege escalation patterns',
-  'Threat intel structuring',
-  'Secure reporting workflow',
-]
-
-const homeToolkit = ['Burp Suite', 'Nmap', 'Wireshark', 'Linux', 'Python']
-
+import { profile, navItems, education, projects, certs, highlights, homeSignals, firstPlaceCount } from './data/portfolio'
+import AchievementExplorer from './components/AchievementExplorer'
+import ExperienceConsole from './components/ExperienceConsole'
+import CyberCursor from './components/CyberCursor'
 function normalizeRoute(pathname) {
   if (!pathname || pathname === '') return '/'
   const withPrefix = pathname.startsWith('/') ? pathname : `/${pathname}`
@@ -225,6 +57,7 @@ function MatrixBackground() {
   const canvasRef = useRef(null)
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
     const canvas = canvasRef.current
     if (!canvas) {
       return undefined
@@ -298,7 +131,7 @@ function LandingPage({ navigate }) {
       <article className="panel landing-panel">
         <p className="landing-kicker">INITIAL ACCESS</p>
         <h1 className="landing-title">Steven Anthony</h1>
-        <p className="landing-subtitle">Cybersecurity Learner | Offensive Security | CTF Competitor</p>
+        <p className="landing-subtitle">{profile.title}</p>
         <blockquote className="landing-quote">
           "Security is not a product. It is a process of constant learning, testing, and improving."
         </blockquote>
@@ -363,8 +196,8 @@ function HomePage({ navigate }) {
             </RouteLink>
           </div>
           <div className="home-notes">
-            <p>Current Track: Red Team Fundamentals</p>
-            <p>Primary Stack: Linux + Python</p>
+            <p>Current Role: SecOps Intern at FEHA</p>
+            <p>Internship: August 2026 - Present</p>
             <p>Mode: Labs, CTF, and practical reporting</p>
           </div>
         </article>
@@ -383,27 +216,13 @@ function HomePage({ navigate }) {
         </article>
 
         <article className="panel">
-          <h2>Recent Wins</h2>
+          <h2>Recent Achievements</h2>
           <ul className="clean-list compact">
             {highlights.slice(0, 4).map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
-        </article>
-
-        <article className="panel">
-          <h2>Now Learning</h2>
-          <ul className="clean-list compact">
-            {homeNowLearning.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-          <h3 className="sub-head">Toolkit</h3>
-          <div className="tags">
-            {homeToolkit.map((tool) => (
-              <span key={tool}>{tool}</span>
-            ))}
-          </div>
+          <RouteLink to="/achievement" navigate={navigate} className="action-btn">Explore all achievements →</RouteLink>
         </article>
       </section>
     </>
@@ -437,8 +256,8 @@ function AboutPage() {
   ]
 
   const aboutStats = [
-    { label: 'CTF Wins', value: '04+' },
-    { label: 'Certs', value: '05' },
+    { label: '1st Places', value: String(firstPlaceCount).padStart(2, '0') },
+    { label: 'Certs', value: String(certs.length).padStart(2, '0') },
     { label: 'Focus', value: 'Red Team' },
   ]
 
@@ -461,8 +280,8 @@ function AboutPage() {
               <strong>{profile.location}</strong>
             </li>
             <li>
-              <span>CLEARANCE</span>
-              <strong className="ok">Internship Ready</strong>
+              <span>CURRENT STATUS</span>
+              <strong className="ok">{profile.status}</strong>
             </li>
             <li>
               <span>DISCIPLINE</span>
@@ -517,12 +336,7 @@ function AboutPage() {
               </div>
             ))}
           </div>
-          <h3 className="sub-head">Toolkit</h3>
-          <div className="tags about-toolkit">
-            {homeToolkit.map((tool) => (
-              <span key={tool}>{tool}</span>
-            ))}
-          </div>
+
         </article>
       </div>
     </>
@@ -530,92 +344,14 @@ function AboutPage() {
 }
 
 function ExperiencePage() {
-  const itemRefs = useRef([])
-  const railRef = useRef(null)
-  const [progress, setProgress] = useState(0)
-
-  useEffect(() => {
-    let raf = 0
-
-    const update = () => {
-      const vh = window.innerHeight
-
-      itemRefs.current.forEach((node) => {
-        if (!node) return
-        const rect = node.getBoundingClientRect()
-        const center = rect.top + rect.height / 2
-        const delta = (center - vh / 2) / vh
-        node.style.setProperty('--shift', `${(delta * 46).toFixed(1)}px`)
-        node.style.setProperty('--ghost', `${(delta * -70).toFixed(1)}px`)
-        const vis = 1 - Math.min(Math.abs(delta) * 1.15, 0.72)
-        node.style.setProperty('--vis', vis.toFixed(3))
-      })
-
-      if (railRef.current) {
-        const rect = railRef.current.getBoundingClientRect()
-        const total = rect.height || 1
-        const scrolled = Math.min(Math.max(vh * 0.5 - rect.top, 0), total)
-        setProgress((scrolled / total) * 100)
-      }
-
-      raf = 0
-    }
-
-    const onScroll = () => {
-      if (!raf) raf = window.requestAnimationFrame(update)
-    }
-
-    update()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll)
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
-      if (raf) window.cancelAnimationFrame(raf)
-    }
-  }, [])
-
   return (
     <>
       <SectionHeader
-        k="TIMELINE"
-        title="Experience Chain"
-        subtitle="Learning, training, and practical engagements that built offensive security depth."
+        k="CAREER DOSSIER"
+        title="Experience Console"
+        subtitle="Currently a SecOps Intern at FEHA. Explore my roles, security training, and practical engagements."
       />
-
-      <div className="xp-parallax" ref={railRef}>
-        <div className="xp-spine">
-          <span className="xp-spine-fill" style={{ height: `${progress}%` }} />
-        </div>
-
-        {experience.map((item, index) => (
-          <section
-            className={`xp-node ${index % 2 === 0 ? 'left' : 'right'}`}
-            key={`${item.role}-${item.org}`}
-            ref={(el) => {
-              itemRefs.current[index] = el
-            }}
-          >
-            <span className="xp-dot" aria-hidden="true" />
-            <span className="xp-ghost" aria-hidden="true">
-              {String(index + 1).padStart(2, '0')}
-            </span>
-            <article className="xp-card">
-              <div className="xp-card-top">
-                <span className="xp-period">{item.period}</span>
-                <span className="xp-tag">LOG_{String(index + 1).padStart(2, '0')}</span>
-              </div>
-              <h3>{item.role}</h3>
-              <p className="xp-org">{item.org}</p>
-              <ul className="clean-list">
-                {item.bullets.map((bullet) => (
-                  <li key={bullet}>{bullet}</li>
-                ))}
-              </ul>
-            </article>
-          </section>
-        ))}
-      </div>
+      <ExperienceConsole />
 
       <article className="panel">
         <h2>Certifications</h2>
@@ -640,11 +376,14 @@ function ExperiencePage() {
 }
 
 function ProjectsPage() {
+  const [category, setCategory] = useState('All')
+  const visibleProjects = projects.filter((project) => category === 'All' || project.category === category)
   const openProjectLink = (url) => {
     window.open(url, '_blank', 'noopener,noreferrer')
   }
 
   const handleProjectMouseMove = (event) => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const card = event.currentTarget
     const rect = card.getBoundingClientRect()
     const x = event.clientX - rect.left
@@ -696,8 +435,11 @@ function ProjectsPage() {
         k="PROJECT LAB"
         title="My Projects"
       />
+      <div className="content-filter-bar"><div className="content-filters" role="group" aria-label="Filter projects">
+        {['All', 'Security', 'Development', 'Design'].map((item) => <button type="button" key={item} aria-pressed={category === item} onClick={() => setCategory(item)}>{item}</button>)}
+      </div><p role="status">{visibleProjects.length} projects</p></div>
       <div className="cards3">
-        {projects.map((project, index) => (
+        {visibleProjects.map((project) => (
           <article
             className="panel project-module"
             key={project.name}
@@ -707,13 +449,13 @@ function ProjectsPage() {
             onMouseMove={handleProjectMouseMove}
             onMouseLeave={handleProjectMouseLeave}
             onKeyDown={(event) => {
-              if (event.key === 'Enter' || event.key === ' ') {
+              if (event.target === event.currentTarget && (event.key === 'Enter' || event.key === ' ')) {
                 event.preventDefault()
                 openProjectLink(project.link)
               }
             }}
           >
-            <span className="card-index">{String(index + 1).padStart(2, '0')}</span>
+            <span className="card-index">{String(projects.indexOf(project) + 1).padStart(2, '0')}</span>
             <ProjectImage
               src={project.image}
               name={project.name}
@@ -762,13 +504,7 @@ function AchievementPage() {
         title="Milestones and Recognition"
         subtitle="Competitions, rankings, and awards that mark concrete progress."
       />
-      <article className="panel">
-        <ul className="clean-list achievement-list">
-          {highlights.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      </article>
+      <AchievementExplorer />
     </>
   )
 }
@@ -808,12 +544,11 @@ function ContactPage({ navigate }) {
         <article className="contact-left">
           <p className="availability">
             <span />
-            AVAILABLE FOR WORK
+            {profile.status.toUpperCase()}
           </p>
           <h2 className="contact-title">Let's start a project together.</h2>
           <p className="contact-lead">
-            Have an idea? I can help you build it. Open for internships, security projects, and long-term technical
-            collaboration.
+            I’m currently a SecOps Intern at FEHA International Consulting B.V. Feel free to connect about security, CTFs, or future collaboration.
           </p>
           <div className="contact-pill">
             <a href={`mailto:${profile.email}`}>{profile.email}</a>
@@ -895,14 +630,12 @@ function NotFound() {
 function App() {
   const { route, navigate } = useRoute()
   const [displayRoute, setDisplayRoute] = useState(route)
-  const [transitionState, setTransitionState] = useState('in')
+  const transitionState = route === displayRoute ? 'in' : 'out'
   const [scrollProgress, setScrollProgress] = useState(0)
   const [showBackTop, setShowBackTop] = useState(false)
   const [commandOpen, setCommandOpen] = useState(false)
   const [commandQuery, setCommandQuery] = useState('')
   const [activeCommand, setActiveCommand] = useState(0)
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 })
-  const [cursorVisible, setCursorVisible] = useState(false)
   const [now, setNow] = useState(() => new Date())
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -964,21 +697,19 @@ function App() {
       return undefined
     }
 
-    setTransitionState('out')
     const outTimer = window.setTimeout(() => {
       setDisplayRoute(route)
-      setTransitionState('in')
+      setCommandOpen(false)
+      setCommandQuery('')
+      setActiveCommand(0)
+      setMenuOpen(false)
+      window.scrollTo({ top: 0, behavior: 'instant' })
     }, 170)
 
     return () => window.clearTimeout(outTimer)
   }, [route, displayRoute])
 
-  useEffect(() => {
-    setCommandOpen(false)
-    setCommandQuery('')
-    setActiveCommand(0)
-    setMenuOpen(false)
-  }, [displayRoute])
+
 
   useEffect(() => {
     const onScroll = () => {
@@ -994,24 +725,7 @@ function App() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  useEffect(() => {
-    const finePointer = window.matchMedia('(pointer:fine)').matches
-    if (!finePointer) {
-      return undefined
-    }
 
-    const onMouseMove = (event) => {
-      setCursorVisible(true)
-      setCursorPos({ x: event.clientX, y: event.clientY })
-    }
-    const onMouseLeave = () => setCursorVisible(false)
-    window.addEventListener('mousemove', onMouseMove, { passive: true })
-    window.addEventListener('mouseout', onMouseLeave)
-    return () => {
-      window.removeEventListener('mousemove', onMouseMove)
-      window.removeEventListener('mouseout', onMouseLeave)
-    }
-  }, [])
 
   useEffect(() => {
     const onKeyDown = (event) => {
@@ -1059,9 +773,7 @@ function App() {
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [commandOpen, filteredCommands, activeCommand])
 
-  useEffect(() => {
-    setActiveCommand(0)
-  }, [commandQuery])
+
 
   useEffect(() => {
     const targets = document.querySelectorAll(
@@ -1108,7 +820,7 @@ function App() {
 
   const navIndex = Math.max(0, navItems.findIndex((item) => item.path === route))
   const activeLabel = navItems[navIndex]?.label ?? 'Root'
-  const clock = now.toLocaleTimeString('en-GB', { hour12: false })
+  const clock = now.toLocaleTimeString('en-GB', { hour12: false, timeZone: 'Asia/Jakarta' })
 
   return (
     <div className="console">
@@ -1119,11 +831,7 @@ function App() {
         <span className="hud-corner br" />
         <span className="hud-scan" />
       </div>
-      <div
-        className={`cursor-glow ${cursorVisible ? 'show' : ''}`}
-        style={{ transform: `translate(${cursorPos.x - 120}px, ${cursorPos.y - 120}px)` }}
-        aria-hidden="true"
-      />
+      <CyberCursor />
       <div className="scroll-progress" style={{ width: `${scrollProgress}%` }} />
       <MatrixBackground />
       <div className="noise" />
@@ -1268,7 +976,7 @@ function App() {
                 autoFocus
                 placeholder="Type a command or search..."
                 value={commandQuery}
-                onChange={(event) => setCommandQuery(event.target.value)}
+                onChange={(event) => { setCommandQuery(event.target.value); setActiveCommand(0) }}
               />
               <button type="button" onClick={() => setCommandOpen(false)} aria-label="Close quick actions">
                 Esc

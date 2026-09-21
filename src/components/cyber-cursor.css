@@ -1,0 +1,12 @@
+.cyber-cursor-ring { position: fixed; top: 0; left: 0; z-index: 99999; pointer-events: none; opacity: 0; }
+.cyber-cursor-ring.visible { opacity: 1; }
+.cyber-cursor-ring span { display: block; width: 26px; height: 26px; border: 1px solid rgba(44,245,160,.45); border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 10px rgba(44,245,160,.18); transition: width 180ms ease, height 180ms ease, border-color 180ms ease, background 180ms ease; }
+.cyber-cursor-ring.interactive span { width: 40px; height: 40px; border-color: rgba(34,211,255,.65); background: rgba(34,211,255,.06); box-shadow: 0 0 16px rgba(34,211,255,.15); }
+.cyber-cursor-ring.pressed span { width: 24px; height: 24px; }
+@media (hover: hover) and (pointer: fine) {
+  html.cyber-cursor-active, html.cyber-cursor-active * { cursor: url('/cyber-cursor.svg?v=dot') 16 16, auto !important; }
+  html.cyber-cursor-active :is(textarea, input:not([type='checkbox']):not([type='radio']), [contenteditable='true']) { cursor: text !important; }
+  html.cyber-cursor-active :disabled { cursor: not-allowed !important; }
+}
+@media (hover: none), (pointer: coarse) { .cyber-cursor-ring { display: none; } }
+@media (prefers-reduced-motion: reduce) { .cyber-cursor-ring span { transition: none; } }
