@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 
-import { profile, navItems, education, projects, certs, highlights, homeSignals, firstPlaceCount } from './data/portfolio'
+import { profile, navItems, education, projects, certs, recentAchievements, homeSignals, firstPlaceCount } from './data/portfolio'
 import AchievementExplorer from './components/AchievementExplorer'
+import CompetitionGallery from './components/CompetitionGallery'
 import ExperienceConsole from './components/ExperienceConsole'
 import CyberCursor from './components/CyberCursor'
 function normalizeRoute(pathname) {
@@ -215,11 +216,14 @@ function HomePage({ navigate }) {
           </div>
         </article>
 
-        <article className="panel">
+        <article className="panel home-achievements">
           <h2>Recent Achievements</h2>
-          <ul className="clean-list compact">
-            {highlights.slice(0, 4).map((item) => (
-              <li key={item}>{item}</li>
+          <ul className="recent-achievements">
+            {recentAchievements.map((item) => (
+              <li key={item.id}>
+                <span className={`recent-result${item.firstPlace ? ' first-place' : ''}`}>{item.result}</span>
+                <span className="recent-event"><strong>{item.title}</strong><time>{item.date}</time></span>
+              </li>
             ))}
           </ul>
           <RouteLink to="/achievement" navigate={navigate} className="action-btn">Explore all achievements →</RouteLink>
@@ -504,6 +508,7 @@ function AchievementPage() {
         title="Milestones and Recognition"
         subtitle="Competitions, rankings, and awards that mark concrete progress."
       />
+      <CompetitionGallery />
       <AchievementExplorer />
     </>
   )

@@ -22,6 +22,7 @@
   --font-body: 'Inter', 'Segoe UI', sans-serif;
 
   --cut: 14px;
+  --section-gap: clamp(1.25rem, 2.5vw, 2rem);
   --border-grad: linear-gradient(135deg, rgba(44, 245, 160, 0.6), rgba(34, 211, 255, 0.3) 50%, rgba(255, 61, 129, 0.5));
   --fill-grad: linear-gradient(160deg, rgba(11, 19, 35, 0.975), rgba(6, 11, 22, 0.985));
 }
@@ -643,12 +644,15 @@ nav button.active {
 }
 
 main {
-  margin-top: 1rem;
+  margin-top: var(--section-gap);
   display: grid;
   gap: 1rem;
 }
 
 .page-transition {
+  display: grid;
+  gap: var(--section-gap);
+  min-width: 0;
   transform-origin: 50% 40%;
 }
 
@@ -865,7 +869,7 @@ main {
 .home-layout {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
-  gap: 1rem;
+  gap: var(--section-gap);
 }
 
 .terminal-card {
@@ -1002,10 +1006,11 @@ main {
 }
 
 .home-extra-grid {
-  margin-top: 1rem;
+  margin-top: 0;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
+  align-items: start;
+  gap: var(--section-gap);
 }
 
 .home-signal-panel {
@@ -1016,7 +1021,7 @@ main {
 .signal-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.55rem;
+  gap: 0.85rem;
 }
 
 .signal-item {
@@ -1279,7 +1284,7 @@ main {
 .about-grid {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
-  gap: 1rem;
+  gap: var(--section-gap);
 }
 
 .about-bio .entry {
@@ -1659,7 +1664,7 @@ main {
 /* ---------- PROJECTS ---------- */
 .cards3 {
   display: grid;
-  gap: 1rem;
+  gap: var(--section-gap);
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 

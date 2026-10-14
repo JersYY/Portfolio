@@ -165,10 +165,12 @@ export const certs = [
 
 // Optional photo: { src: "/achievements/event.jpg", alt: "Describe the photo", caption: "Optional caption", position: "center" }.
 export const achievements = [
-  { id: 'intechfest', description: "A Capture the Flag competition organized by PNBCTF in Bali.", title: 'INTECHFEST CTF 2026', result: '1st place', date: 'Sep 2026', year: '2026', photo: null, category: 'Competition', firstPlace: true },
-  { id: 'hidc', description: "A cybersecurity competition organized by Hacktrace Indonesia and PT Spentera, with the finals held at the Institut Teknologi Del campus.", title: 'Hacktrace Independence Day Competition (HIDC) 2026', result: 'Top 3', date: 'Sep 2026', year: '2026', photo: null, category: 'Competition' },
+  { id: 'intechfest', description: "A Capture the Flag competition organized by Politeknik Negeri Bali.", title: 'INTECHFEST CTF 2026', result: '1st place', date: 'Sep 2026', year: '2026', photo: null, category: 'Competition', firstPlace: true },
+  { id: 'itechnocup', description: 'A Capture the Flag competition organized by Politeknik Negeri Jakarta.', title: 'ITechnoCup 2026', result: '1st place', date: 'Sep 2026', year: '2026', photo: null, category: 'Competition', firstPlace: true },
+  { id: 'ifest26', description: 'A Capture the Flag competition organized by Universitas Padjadjaran (UNPAD).', title: 'IFEST26', result: '2nd place', date: 'Sep 2026', year: '2026', photo: null, category: 'Competition' },
+  { id: 'hidc', description: "A cybersecurity competition organized by PT Hacktrace Siber Indonesia (Hacktrace), with the finals held at the Institut Teknologi Del campus.", title: 'Hacktrace Independence Day Competition (HIDC) 2026', result: '3rd place', date: 'Sep 2026', year: '2026', photo: null, category: 'Competition' },
   { id: 'meta4sec', description: "A Capture the Flag competition organized by Meta4Sec.", title: 'Meta4Sec 3.0 CTF', result: '1st place', date: 'Aug 2026', year: '2026', photo: null, category: 'Competition', firstPlace: true },
-  { id: 'c2c', description: "An annual international Capture the Flag competition bringing together cybersecurity talent from around the world. The 2026 edition was hosted by Universitas Indonesia in Bali.", title: 'Country-to-Country (C2C) CTF', result: '5th place', date: 'Aug 2026', year: '2026', photo: null, category: 'Competition' },
+  { id: 'c2c', description: "An annual international Capture the Flag competition by International Cyber Security – Center of Excellence (INCS-CoE). The 2026 edition was hosted by Universitas Indonesia in Bali.", title: 'Country-to-Country (C2C) CTF 2026', result: '5th place', date: 'Aug 2026', year: '2026', photo: null, category: 'Competition' },
   { id: 'techfest', description: "A Capture the Flag competition organized by BINUS University.", title: 'TECHFEST CTF 2026', result: '1st place', date: 'Jul 2026', year: '2026', photo: null, category: 'Competition', firstPlace: true },
   { id: 'gunadarma', description: 'A Capture the Flag competition organized by Universitas Gunadarma as part of Gunadarma Code Week 2.0.', title: 'Gunadarma Code Week 2.0 CTF', result: '5th place', date: 'Jun 2026', year: '2026', photo: null, category: 'Competition' },
   { id: 'ifest', description: 'A Capture the Flag competition organized by Universitas Padjadjaran (UNPAD) as part of IFEST 13.', title: 'IFEST 13', result: 'Finalist', date: 'May 2025', year: '2025', photo: null, category: 'Competition' },
@@ -181,6 +183,7 @@ export const achievements = [
 ]
 
 export const highlights = achievements.map((item) => `${item.result} - ${item.title} (${item.date})`)
+export const recentAchievements = achievements.slice(0, 7)
 export const firstPlaceCount = achievements.filter((item) => item.firstPlace).length
 
 export const homeSignals = [
